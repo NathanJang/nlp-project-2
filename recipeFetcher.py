@@ -41,24 +41,38 @@ class RecipeFetcher:
     page_html = requests.get(nutrition_facts_url)
     page_graph = BeautifulSoup(page_html.content)
 
+    nutrition_rows = page_graph.find_all('div', {'class': 'nutrition-row'})
+
     r = re.compile("([0-9]*\.?[0-9]*)([a-zA-Z]+)")
 
-    # for nutrient_row in < ITERATE_OVER_EACH_NUTRIENT >:
-    #   nutrient = {}
-    #
-    #   # Fill out this to scrape and return:
-    #   # nutrient['name'], nutrient['amount'],
-    #   # nutrient['unit'], nutrient['daily_value']
-    #
-    #   results.append(nutrient)
-    #
-    # return results
+    for nutrient_row in nutrition_rows:
+      # todo: clean up sanitize and strip
+      nutrient = {}
+      nutrient_row_children = nutrient_row.text.split(':')
+      nutrient['name'] = nutrient_row_children[0].strip()
+      split_amount_and_value = nutrient_row_children[1].split('\n')
+      nutrient['amount'] = split_amount_and_value[0]
+      nutrient['unit'] = split_amount_and_value[0] #todo update to strip unit letter
+      nutrient['daily value'] = split_amount_and_value[1].split(' ')[0] or '0'
+
+      # strip all new lines from our values
+      nutrient = {key: val.strip() for key, val in nutrient.items()}
+      # for key in nutrient:
+      #   nutrient[key] = nutrient[key].replace('\n', '')
+
+      # Fill out this to scrape and return:
+      # nutrient['name'], nutrient['amount'],
+      # nutrient['unit'], nutrient['daily_value']
+
+      results.append(nutrient)
+
+    return results
 
 
 rf = RecipeFetcher()
 meat_lasagna = rf.search_recipes('meat lasagna')[0]
 results = rf.scrape_recipe(meat_lasagna)
-
+print('hello')
 """
 Should return:
 
