@@ -1,11 +1,12 @@
 from bs4 import BeautifulSoup
-
+import string
 import requests
 import re
 
-
 class RecipeFetcher:
   search_base_url = 'https://www.allrecipes.com/search/results/?wt=%s&sort=re'
+  # todo: move to constants
+  units = {}
 
   def search_recipes(self, keywords):
     search_url = self.search_base_url % (keywords.replace(' ', '+'))
@@ -51,28 +52,38 @@ class RecipeFetcher:
       nutrient_row_children = nutrient_row.text.split(':')
       nutrient['name'] = nutrient_row_children[0].strip()
       split_amount_and_value = nutrient_row_children[1].split('\n')
-      nutrient['amount'] = split_amount_and_value[0]
-      nutrient['unit'] = split_amount_and_value[0] #todo update to strip unit letter
-      nutrient['daily value'] = split_amount_and_value[1].split(' ')[0] or '0'
+
+      # extract unit and amount
+      nutrient['amount'] = self.extract_numbers(split_amount_and_value[0])
+      nutrient['unit'] = self.extract_unit(split_amount_and_value[0])
+
+      # nutrient['daily value'] = split_amount_and_value[1].split(' ')[0] or '0'
+      nutrient['daily value'] = split_amount_and_value[1] or None
 
       # strip all new lines from our values
       nutrient = {key: val.strip() for key, val in nutrient.items()}
-      # for key in nutrient:
-      #   nutrient[key] = nutrient[key].replace('\n', '')
-
-      # Fill out this to scrape and return:
-      # nutrient['name'], nutrient['amount'],
-      # nutrient['unit'], nutrient['daily_value']
 
       results.append(nutrient)
 
     return results
 
+  def extract_numbers(self, text):
+    try:
+      return re.findall(r"\d+\.\d+|\d+", text)[0]
+    except IndexError:
+      return 0
+
+  def extract_unit(self, text):
+    try:
+      return re.split(r"\d+\.\d+|\d+", text)[1]
+    except IndexError:
+      return ''
+
 
 rf = RecipeFetcher()
 meat_lasagna = rf.search_recipes('meat lasagna')[0]
 results = rf.scrape_recipe(meat_lasagna)
-print('hello')
+
 """
 Should return:
 
