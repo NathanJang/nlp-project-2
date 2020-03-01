@@ -6,7 +6,6 @@
 
 # 1. Program asks for a recipe URL;
 # 2. User enters said URL;
-recipe_url = input("Please enter a recipe url: ")
 
 # 3. Program displays the parsed recipe;
 
@@ -31,12 +30,11 @@ def set_transformations():
 	# Cooking method (from bake to stir fry, for example) (OPTIONAL)
 	print("10 - Change cooking method")
 
-set_transformations()
 # 5. User enters a number within said list;
-selected_transformation = input()
 
 # 6. Program displays the output of the selected transformation
-def transformation(selected_transformation):
+def transformation():
+	selected_transformation = input()
 	if selected_transformation == "1":
 		print("Transformed recipe to non-vegetarian")
 	elif selected_transformation == "2":
@@ -59,10 +57,8 @@ def transformation(selected_transformation):
 		print("Changed cooking method")
 	else:
 		print("Please enter a number 1-10")
-		selected_transformation = input()
-		transformation(selected_transformation)
+		transformation()
 
-transformation(selected_transformation)
 
 # 7. Program asks if the user would like to continue transforming the recipe or start from scratch with a new recipe;
 def continue_startover():
@@ -71,33 +67,36 @@ def continue_startover():
 	print("2 - If you would like to start over with a new recipe")
 	print("3 - If you would like to exit")
 
-continue_startover()
 # 8. User enters an option;
-selected_option = input()
 
 # 9. Program goes back to #1 or continues to iterate over the previously transformed recipe.
-def next_step(selected_option):
-	while selected_option != "3":
-		if selected_option == "1":
-			set_transformations()
-			selected_transformation = input() 
-			continue_startover()
-			selected_option = input()
-		if selected_option == "2":
-			recipe_url = input("Please enter a recipe url: ")
-			set_transformations()
-			selected_transformation = input()
-			continue_startover()
-			selected_option = input()
-		else: 
-			print("Please enter 1, 2, or 3")
-			selected_option = input()
-
-next_step(selected_option)
-
-
+def next_step():
+	selected_option = input()
+	if selected_option == "1":
+		set_transformations()
+		transformation()
+		continue_startover()
+		next_step()
+	elif selected_option == "2":
+		recipe_url = input("Please enter a recipe url: ")
+		set_transformations()
+		transformation()
+		continue_startover()
+		next_step()
+	elif selected_option == "3":
+		return
+	else:
+		print("Please enter 1, 2, or 3")
+		next_step()
 
 
+
+
+recipe_url = input("Please enter a recipe url: ")
+set_transformations()
+transformation()
+continue_startover()
+next_step()
 
 
 
