@@ -1,3 +1,5 @@
 {
-  "measurements": ["cups","teaspoons","tablespoons","ounces","pounds","quarts","pints","gallons", "cans", "bottles"]
+  "measurements": ["cups","teaspoons","tablespoons","ounces","pounds","quarts","pints","gallons", "cans", "bottles"],
+  "tools": ["cutters", "sheets", "ricers", "woks", "bowls", "cleavers", "skillets", "colanders", "frothers", "mashers", "press", "ladles", "spatulas", "grills", "mills", "pestles", "tenderizers", "zesters", "corkscrews", "boilers", "spoons", "pitters", "cups", "rolling pins", "tamis", "cheesecloths", "peelers", "funnels", "corers", "knifes", "scalers", "openers", "gloves", "scales", "mortars", "scissors", "sieves", "grinders", "tongs", "measuring cups", "clay pots", "reamers", "timers", "baking sheets", "slicers", "steamers", "pots", "chinois", "bags", "beanpots", "kettles", "torchs", "grillers", "fryers", "trays", "blenders", "thermometers", "mezzalunas", "plates", "pans", "whisks", "forks", "processors", "scoops", "parchment papers", "mandolines", "makers", "ovens", "knives", "squeezers", "cutting boards", "mixers", "pressure cookers", "graters", "skewers", "machines"]
+  
 }

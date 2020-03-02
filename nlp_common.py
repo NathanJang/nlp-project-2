@@ -85,6 +85,20 @@ class WordTagger:
     print(processed_ingredients)
     return processed_ingredients
 
+  def process_tools(self, recipe_results):
+    TOOLS = WL.get_words('tools')
+    raw_directions = recipe_results['directions']
+    processed_tools = []
+
+    for direction in raw_directions:
+      for word in direction.split():
+        cleaned_word = word.strip(',.').lower()
+        if cleaned_word not in processed_tools and (cleaned_word in TOOLS or f'{cleaned_word}s' in TOOLS):
+          processed_tools.append(cleaned_word)
+
+    return processed_tools
+
+
 if __name__ == '__main__':
   rf = RecipeFetcher()
   meat_lasagna = rf.search_recipes('meat lasagna')[0]
