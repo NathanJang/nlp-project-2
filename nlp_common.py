@@ -12,16 +12,17 @@ PASS_WORDS = {
 }
 
 WL = WordLists()
-MEASUREMENTS = WL.get_words('measurements')
 
 
-class WordTagger():
+class WordTagger:
   def __init__(self):
     pass
+
 
   def process_ingredients(self, recipe_results):
     # todo: may need to limit list of ingredients
     raw_ingredients = recipe_list['ingredients']
+    MEASUREMENTS = WL.get_words('measurements')
     processed_ingredients = {}
 
     for ing in raw_ingredients:
@@ -60,10 +61,10 @@ class WordTagger():
             ingredient_info['paren'] = ' '.join(str(m) for m in split_ingredient_fragments[ing_ind:ing_ind_2+1])
 
         # get the ingredients and description
-        qty_or_msr = fragment != ingredient_info['qty'] and fragment != ingredient_info['measurement'] \
-                     and fragment not in MEASUREMENTS and not fragment.isdigit()
-        frag_parens = '(' not in fragment or ')' not in fragment
-        if qty_or_msr and frag_parens:
+        qty_check = fragment != ingredient_info['qty'] and not fragment.isdigit()
+        msr_check = fragment != ingredient_info['measurement'] and fragment not in MEASUREMENTS and fragment + 's' not in MEASUREMENTS
+        parens_check = '(' not in fragment or ')' not in fragment
+        if qty_check and msr_check and parens_check:
           # use nltk to tag the parts of speach
           tagged_tokens = nltk.pos_tag(fragment.split())
           fragment_word = tagged_tokens[0][0]
@@ -81,7 +82,7 @@ class WordTagger():
           ingredient_info['qty'] = ""
 
       processed_ingredients[ing] = ingredient_info
-
+    print(processed_ingredients)
     return processed_ingredients
 
 if __name__ == '__main__':
