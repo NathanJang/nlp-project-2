@@ -1,19 +1,119 @@
 import json
+from copy import deepcopy
+import random
 
 
-class WordLists:
+class Transformer:
   def __init__(self):
     self.words_file_name = 'word_list.json'
 
     with open(self.words_file_name, 'r') as words_file:
       self.words_json = json.load(words_file)
 
-  def get_words(self, word):
-    try:
-      return self.words_json[word]
-    except KeyError:
-      return []
+  def __getitem__(self, category):
+    return self.words_json.get(category, [])
+
+  def to_vegetarian(self, original_recipe):
+    '''Returns a new vegetarian recipe using to the recipe dictionary representation in recipeFetcher.py'''
+    new_recipe = deepcopy(original_recipe)
+    replacements = {} # Mapping meaty ingredient -> new vegetarian ingredient
+    for i, ingredient in enumerate(new_recipe['ingredients']):
+      tokens = ingredient.split()
+      if any(token in self['containsMeat'] for token in tokens):
+        # We've found a meaty ingredient! Replace it with a random veg protein
+        old_ingredient_t = next(iter(token for token in tokens if token in self['containsMeat']))
+        new_ingredient_t = random.choice(self['vegetarianProteins'])
+        replacements[old_ingredient_t] = new_ingredient_t
+        new_recipe['ingredients'][i] = ingredient.replace(old_ingredient_t, new_ingredient_t) # Put the replacement into new ingredient list
+    # Loop through directions and stupidly replace tokens that are the old ingredient
+    for i, direction in enumerate(new_recipe['directions']):
+      tokens = direction.split()
+      for j, token in enumerate(tokens):
+        if token in replacements:
+          tokens[j] = replacements[token]
+      new_direction = ' '.join(tokens)
+      new_recipe['directions'][i] = new_direction
+    return new_recipe
+
 
 
 if __name__ == '__main__':
-  testClass = WordLists()
+  testClass = Transformer()
+  old_recipe =  {
+    'ingredients': ['12 whole wheat lasagna noodles',
+    '1 pound lean ground beef',
+    '2 cloves garlic, chopped',
+    '1/2 teaspoon garlic powder',
+    '1 teaspoon dried oregano, or to taste',
+    'salt and ground black pepper to taste',
+    '1 (16 ounce) package cottage cheese',
+    '2 eggs',
+    '1/2 cup shredded Parmesan cheese',
+    '1 1/2 (25 ounce) jars tomato-basil pasta sauce',
+    '2 cups shredded mozzarella cheese'],
+   'directions': ['Preheat oven to 350 degrees F (175 degrees C).\n                                    Watch Now',
+    'Fill a large pot with lightly salted water and bring to a rolling boil over high heat. Once the water is boiling, add the lasagna noodles a few at a time, and return to a boil. Cook the pasta uncovered, stirring occasionally, until the pasta has cooked through, but is still firm to the bite, about 10 minutes. Remove the noodles to a plate.\n                                    Watch Now',
+    'Place the ground beef into a skillet over medium heat, add the garlic, garlic powder, oregano, salt, and black pepper to the skillet. Cook the meat, chopping it into small chunks as it cooks, until no longer pink, about 10 minutes. Drain excess grease.\n                                    Watch Now',
+    'In a bowl, mix the cottage cheese, eggs, and Parmesan cheese until thoroughly combined.\n                                    Watch Now',
+    'Place 4 noodles side by side into the bottom of a 9x13-inch baking pan; top with a layer of the tomato-basil sauce, a layer of ground beef mixture, and a layer of the cottage cheese mixture. Repeat layers twice more, ending with a layer of sauce; sprinkle top with the mozzarella cheese. Cover the dish with aluminum foil.\n                                    Watch Now',
+    'Bake in the preheated oven until the casserole is bubbling and the cheese has melted, about 30 minutes. Remove foil and bake until cheese has begun to brown, about 10 more minutes. Allow to stand at least 10 minutes before serving.\n                                    Watch Now'],
+   'nutrition': [{'name': 'Total Fat',
+     'amount': '19.3',
+     'unit': 'g',
+     'daily_value': '30 %'},
+    {'name': 'Saturated Fat', 'amount': '9.0', 'unit': 'g', 'daily_value': None},
+    {'name': 'Cholesterol',
+     'amount': '115',
+     'unit': 'mg',
+     'daily_value': '38 %'},
+    {'name': 'Sodium', 'amount': '999', 'unit': 'mg', 'daily_value': '40 %'},
+    {'name': 'Potassium', 'amount': '717', 'unit': 'mg', 'daily_value': '20 %'},
+    {'name': 'Total Carbohydrates',
+     'amount': '47.1',
+     'unit': 'g',
+     'daily_value': '15 %'},
+    {'name': 'Dietary Fiber',
+     'amount': '6.3',
+     'unit': 'g',
+     'daily_value': '25 %'},
+    {'name': 'Protein', 'amount': '35.6', 'unit': 'g', 'daily_value': '71 %'},
+    {'name': 'Sugars', 'amount': '12', 'unit': 'g', 'daily_value': None},
+    {'name': 'Vitamin A', 'amount': '855', 'unit': 'IU', 'daily_value': None},
+    {'name': 'Vitamin C', 'amount': '2', 'unit': 'mg', 'daily_value': None},
+    {'name': 'Calcium', 'amount': '361', 'unit': 'mg', 'daily_value': None},
+    {'name': 'Iron', 'amount': '4', 'unit': 'mg', 'daily_value': None},
+    {'name': 'Thiamin', 'amount': '0', 'unit': 'mg', 'daily_value': None},
+    {'name': 'Niacin', 'amount': '11', 'unit': 'mg', 'daily_value': None},
+    {'name': 'Vitamin B6', 'amount': '0', 'unit': 'mg', 'daily_value': None},
+    {'name': 'Magnesium', 'amount': '74', 'unit': 'mg', 'daily_value': None},
+    {'name': 'Folate', 'amount': '41', 'unit': 'mcg', 'daily_value': None}]
+  }
+  print(json.dumps(testClass.to_vegetarian(old_recipe), indent=2))
+  '''
+  Should return (if beef -> tofu)
+  {
+    "ingredients": [
+      "12 whole wheat lasagna noodles",
+      "1 pound lean ground tofu",
+      "2 cloves garlic, chopped",
+      "1/2 teaspoon garlic powder",
+      "1 teaspoon dried oregano, or to taste",
+      "salt and ground black pepper to taste",
+      "1 (16 ounce) package cottage cheese",
+      "2 eggs",
+      "1/2 cup shredded Parmesan cheese",
+      "1 1/2 (25 ounce) jars tomato-basil pasta sauce",
+      "2 cups shredded mozzarella cheese"
+    ],
+    "directions": [
+      "Preheat oven to 350 degrees F (175 degrees C). Watch Now",
+      "Fill a large pot with lightly salted water and bring to a rolling boil over high heat. Once the water is boiling, add the lasagna noodles a few at a time, and return to a boil. Cook the pasta uncovered, stirring occasionally, until the pasta has cooked through, but is still firm to the bite, about 10 minutes. Remove the noodles to a plate. Watch Now",
+      "Place the ground tofu into a skillet over medium heat, add the garlic, garlic powder, oregano, salt, and black pepper to the skillet. Cook the meat, chopping it into small chunks as it cooks, until no longer pink, about 10 minutes. Drain excess grease. Watch Now",
+      "In a bowl, mix the cottage cheese, eggs, and Parmesan cheese until thoroughly combined. Watch Now",
+      "Place 4 noodles side by side into the bottom of a 9x13-inch baking pan; top with a layer of the tomato-basil sauce, a layer of ground tofu mixture, and a layer of the cottage cheese mixture. Repeat layers twice more, ending with a layer of sauce; sprinkle top with the mozzarella cheese. Cover the dish with aluminum foil. Watch Now",
+      "Bake in the preheated oven until the casserole is bubbling and the cheese has melted, about 30 minutes. Remove foil and bake until cheese has begun to brown, about 10 more minutes. Allow to stand at least 10 minutes before serving. Watch Now"
+    ],
+    ...
+  }
+  '''
+
