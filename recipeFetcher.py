@@ -64,7 +64,7 @@ class RecipeFetcher:
       nutrient = {key: val.strip() if val is not None else None for key, val in nutrient.items()}
 
       results.append(nutrient)
-    print(results)
+
     return results
 
   def extract_numbers(self, text):
@@ -80,9 +80,11 @@ class RecipeFetcher:
       return ''
 
 
-rf = RecipeFetcher()
-meat_lasagna = rf.search_recipes('meat lasagna')[0]
-results = rf.scrape_recipe(meat_lasagna)
+if __name__ == '__main__':
+  rf = RecipeFetcher()
+  meat_lasagna = rf.search_recipes('meat lasagna')[0]
+  results = rf.scrape_recipe(meat_lasagna)
+  print(results)
 
 """
 Should return:
