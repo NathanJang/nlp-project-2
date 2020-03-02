@@ -61,10 +61,10 @@ class RecipeFetcher:
       nutrient['daily value'] = split_amount_and_value[1] or None
 
       # strip all new lines from our values
-      nutrient = {key: val.strip() for key, val in nutrient.items()}
+      nutrient = {key: val.strip() if val is not None else None for key, val in nutrient.items()}
 
       results.append(nutrient)
-
+    print(results)
     return results
 
   def extract_numbers(self, text):
