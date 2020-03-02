@@ -16,13 +16,12 @@ WL = WordLists()
 
 class WordTagger:
   def __init__(self):
-    pass
-
+    self.measurements = WL.get_words('measurements')
+    self.tools = WL.get_words('tools')
 
   def process_ingredients(self, recipe_results):
     # todo: may need to limit list of ingredients
     raw_ingredients = recipe_list['ingredients']
-    MEASUREMENTS = WL.get_words('measurements')
     processed_ingredients = {}
 
     for ing in raw_ingredients:
@@ -48,7 +47,7 @@ class WordTagger:
             pass
 
         # get measurement from recipe
-        if fragment in MEASUREMENTS:
+        if fragment in self.measurements:
           ingredient_info['measurement'] = fragment
 
         if '(' in fragment:
@@ -62,7 +61,8 @@ class WordTagger:
 
         # get the ingredients and description
         qty_check = fragment != ingredient_info['qty'] and not fragment.isdigit()
-        msr_check = fragment != ingredient_info['measurement'] and fragment not in MEASUREMENTS and fragment + 's' not in MEASUREMENTS
+        msr_check = fragment != ingredient_info['measurement'] and fragment not in self.measurements \
+                    and fragment + 's' not in self.measurements
         parens_check = '(' not in fragment or ')' not in fragment
         if qty_check and msr_check and parens_check:
           # use nltk to tag the parts of speach
@@ -86,18 +86,31 @@ class WordTagger:
     return processed_ingredients
 
   def process_tools(self, recipe_results):
-    TOOLS = WL.get_words('tools')
     raw_directions = recipe_results['directions']
     processed_tools = []
 
     for direction in raw_directions:
       for word in direction.split():
         cleaned_word = word.strip(',.').lower()
-        if cleaned_word not in processed_tools and (cleaned_word in TOOLS or f'{cleaned_word}s' in TOOLS):
+        if cleaned_word not in processed_tools and (cleaned_word in self.tools or f'{cleaned_word}s' in self.tools):
           processed_tools.append(cleaned_word)
 
     return processed_tools
 
+  def process_recipe_methods(self, recipe_results):
+    raw_directions = recipe_results['directions']
+    methods = WL.get_words('methods')
+    processed_methods = []
+    # todo: optimize redundant code.
+    for direction in raw_directions:
+      for word in direction.split():
+        cleaned_word = word.strip(',.').lower()
+        if cleaned_word not in processed_methods and (cleaned_word in methods or f'{cleaned_word}ing' in methods):
+          processed_methods.append(cleaned_word)
+
+    return processed_methods
+
+  def process_steps(self):
 
 if __name__ == '__main__':
   rf = RecipeFetcher()
