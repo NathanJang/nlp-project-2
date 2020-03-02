@@ -5,7 +5,7 @@ from recipeFetcher import RecipeFetcher
 from fractions import Fraction
 
 STOP_WORDS = {
-  'ingredients': ['taste', 'tastes']
+  'ingredients': ['taste', 'tastes', 'and', 'oven']
 }
 
 PASS_WORDS = {
@@ -23,20 +23,21 @@ class WordTagger:
     self.measurements = transformer.__getitem__('measurements')
     self.tools = transformer.__getitem__('tools')
     self.times = ["minutes", "seconds", "hours", "days"]
-    self.methods = transformer.__getitem__('methods')
+    self.methods = transformer.__getitem__('cookingMethods')
     # store recipe data in class to access at any time
-    self.found_ingredients = None
+    # todo: move this to a base list for ingredients
+    self.found_ingredients = {'water': {'name': 'water'}}
     self.found_methods = None
     self.found_tools = None
 
   def process_ingredients(self, recipe_results):
     # todo: may need to limit list of ingredients
     raw_ingredients = recipe_results['ingredients']
-    processed_ingredients = {}
+    processed_ingredients = self.found_ingredients
 
     for ing in raw_ingredients:
       ingredient_info = {
-        'ingredient': '',
+        'name': '',
         'qty': 0,
         'measurement': '',
         'info': '',
@@ -82,9 +83,9 @@ class WordTagger:
           # todo: move these codes to constants
           # assign ingredient and description based on fragment
           if fragment_word not in STOP_WORDS and (fragment_pos in ["NN", "NNS"] or fragment_word in PASS_WORDS):
-            ingredient_info['ingredient'] += f'{fragment} '
+            ingredient_info['name'] += f'{fragment} '
 
-          if fragment_word not in ingredient_info['ingredient'] and fragment_pos in ["JJ", "VBN", "RB"]:
+          if fragment_word not in ingredient_info['name'] and fragment_pos in ["JJ", "VBN", "RB"]:
             ingredient_info['info'] += f'{fragment} '
 
         # todo: maybe remove this
@@ -152,12 +153,15 @@ class WordTagger:
           cleaned_direction[ind] = cleaned_direction[ind].strip(',.')
           for ingredient in self.found_ingredients:
             split_ingredient = ingredient.split()
+            ingredient_name = self.found_ingredients[ingredient]['name']
             # todo: move this to a helper function to cut down on code
-            ingredient_check = cleaned_direction[ind] in split_ingredient and f'{cleaned_direction[ind]}s' in \
-                               split_ingredient or cleaned_direction[ind][:-1] in split_ingredient
+            len_check = len(cleaned_direction[ind]) > 2 and not cleaned_direction[ind].isdigit() and \
+                        cleaned_direction[ind] not in STOP_WORDS['ingredients']
+            ingredient_check = cleaned_direction[ind] in ingredient_name or f'{cleaned_direction[ind]}s' in \
+                               ingredient_name or cleaned_direction[ind][:-1] in ingredient_name
             ing_check = cleaned_direction[ind] not in found_directions[direction_name]["ingredients"]
             # add ingredient to found directions for specific direction
-            if ingredient_check and ing_check:
+            if ingredient_check and ing_check and len_check:
               found_directions[direction_name]["ingredients"].append(cleaned_direction[ind])
           # todo: maybe change to elif
           # add tools to found directions for specific direction
