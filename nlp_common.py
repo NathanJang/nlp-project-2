@@ -1,5 +1,5 @@
 import nltk
-from word_transformations import WordLists
+from word_transformations import Transformer
 from recipeFetcher import RecipeFetcher
 
 from fractions import Fraction
@@ -12,15 +12,18 @@ PASS_WORDS = {
   'ingredients': []
 }
 
-WL = WordLists()
+transformer = Transformer()
+
+# TODO: MAJOR:
+# improve ingredient parsing and measurements
 
 
 class WordTagger:
   def __init__(self):
-    self.measurements = WL.get_words('measurements')
-    self.tools = WL.get_words('tools')
+    self.measurements = transformer.__getitem__('measurements')
+    self.tools = transformer.__getitem__('tools')
     self.times = ["minutes", "seconds", "hours", "days"]
-    self.methods = WL.get_words('methods')
+    self.methods = transformer.__getitem__('methods')
     # store recipe data in class to access at any time
     self.found_ingredients = None
     self.found_methods = None
@@ -36,9 +39,8 @@ class WordTagger:
         'ingredient': '',
         'qty': 0,
         'measurement': '',
-        'weight': '',
-        'descrip': '',
-        'paren': '',  # todo change this
+        'info': '',
+        'paren': '',
       }
 
       split_words = ing.split()
@@ -46,15 +48,15 @@ class WordTagger:
       for fragment in split_words:
         # get the quantity from the recipe
         if '/' in fragment and '(' not in fragment:
-          ingredient_info['qty'] = float(sum(Fraction(s) for s in fragment.split()))
-        else:
+          ingredient_info['qty'] += float(sum(Fraction(part) for part in fragment.split()))
+        if fragment.isdigit():
           try:
-            ingredient_info['qty'] = float(fragment)
+            ingredient_info['qty'] += float(fragment)
           except ValueError:
             pass
 
         # get measurement from recipe
-        if fragment in self.measurements:
+        if fragment in self.measurements or f'{fragment}s' in self.measurements:
           ingredient_info['measurement'] = fragment
 
         if '(' in fragment:
@@ -64,13 +66,13 @@ class WordTagger:
           if ')' in split_ingredient_fragments[ing_ind + 1]:
             ing_ind_2 = ing_ind + 1
           if ing_ind_2 == ing_ind + 1:
-            ingredient_info['paren'] = ' '.join(str(m) for m in split_ingredient_fragments[ing_ind:ing_ind_2 + 1])
+            ingredient_info['paren'] = ' '.join(str(part) for part in split_ingredient_fragments[ing_ind:ing_ind_2 + 1])
 
         # get the ingredients and description
         qty_check = fragment != ingredient_info['qty'] and not fragment.isdigit()
         msr_check = fragment != ingredient_info['measurement'] and fragment not in self.measurements \
                     and fragment + 's' not in self.measurements
-        parens_check = '(' not in fragment or ')' not in fragment
+        parens_check = '(' not in fragment and ')' not in fragment
         if qty_check and msr_check and parens_check:
           # use nltk to tag the parts of speach
           tagged_tokens = nltk.pos_tag(fragment.split())
@@ -83,11 +85,11 @@ class WordTagger:
             ingredient_info['ingredient'] += f'{fragment} '
 
           if fragment_word not in ingredient_info['ingredient'] and fragment_pos in ["JJ", "VBN", "RB"]:
-            ingredient_info['descrip'] += f'{fragment} '
+            ingredient_info['info'] += f'{fragment} '
 
         # todo: maybe remove this
-        if ingredient_info['qty'] == 0:
-          ingredient_info['qty'] = ""
+      if ingredient_info['qty'] == 0:
+        ingredient_info['qty'] = ""
 
       processed_ingredients[ing] = ingredient_info
 
