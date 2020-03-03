@@ -35,26 +35,27 @@ def set_transformations():
 # 6. Program displays the output of the selected transformation
 def transformation():
 	selected_transformation = input()
+	print("\n")
 	if selected_transformation == "1":
-		print("Transformed recipe to non-vegetarian")
+		print("~Transformed recipe to non-vegetarian~")
 	elif selected_transformation == "2":
-		print("Transformed recipe to vegetarian")
+		print("~Transformed recipe to vegetarian~")
 	elif selected_transformation == "3":
-		print("Transformed recipe to non-healthy")
+		print("~Transformed recipe to non-healthy~")
 	elif selected_transformation == "4":
-		print("Transformed recipe to healthy")
+		print("~Transformed recipe to healthy~")
 	elif selected_transformation == "5":
-		print("Transformed to X cuisine")
+		print("~Transformed to X cuisine~")
 	elif selected_transformation == "6":
-		print("Transformed to Y cuisine")
+		print("~Transformed to Y cuisine~")
 	elif selected_transformation == "7":
-		print("Transformed to easy")
+		print("~Transformed to easy~")
 	elif selected_transformation == "8":
-		print("Doubled the amount")
+		print("~Doubled the amount~")
 	elif selected_transformation == "9":
-		print("Reduced the amount by half")
+		print("~Reduced the amount by half~")
 	elif selected_transformation == "10":
-		print("Changed cooking method")
+		print("~Changed cooking method~")
 	else:
 		print("Please enter a number 1-10")
 		transformation()
@@ -79,6 +80,7 @@ def next_step():
 		next_step()
 	elif selected_option == "2":
 		recipe_url = input("Please enter a recipe url: ")
+		print("\n")
 		set_transformations()
 		transformation()
 		continue_startover()
@@ -93,6 +95,7 @@ def next_step():
 
 
 recipe_url = input("Please enter a recipe url: ")
+print("\n")
 set_transformations()
 transformation()
 continue_startover()

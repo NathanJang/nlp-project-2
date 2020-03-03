@@ -27,6 +27,7 @@ class Transformer:
         new_recipe['ingredients'][i] = ingredient.replace(old_ingredient_t, new_ingredient_t) # Put the replacement into new ingredient list
     # Loop through directions and stupidly replace tokens that are the old ingredient
     for i, direction in enumerate(new_recipe['directions']):
+      direction = direction.replace("Watch Now", "") #remove "Watch Now" substring
       tokens = direction.split()
       for j, token in enumerate(tokens):
         if token in replacements:
@@ -36,6 +37,28 @@ class Transformer:
     return new_recipe
 
 
+  def to_non_vegetarian(self, original_recipe):
+    '''Returns a new non-vegetarian recipe using to the recipe dictionary representation in recipeFetcher.py'''
+    new_recipe = deepcopy(original_recipe)
+    replacements = {} # Mapping meaty ingredient -> new vegetarian ingredient
+    for i, ingredient in enumerate(new_recipe['ingredients']):
+      tokens = ingredient.split()
+      if any(token in self['vegetarianProteins'] for token in tokens):
+        # We've found a meaty ingredient! Replace it with a random veg protein
+        old_ingredient_t = next(iter(token for token in tokens if token in self['vegetarianProteins']))
+        new_ingredient_t = replacements.get(old_ingredient_t, random.choice(self['containsMeat'])) # use existing or choose new replacement
+        replacements[old_ingredient_t] = new_ingredient_t
+        new_recipe['ingredients'][i] = ingredient.replace(old_ingredient_t, new_ingredient_t) # Put the replacement into new ingredient list
+    # Loop through directions and stupidly replace tokens that are the old ingredient
+    for i, direction in enumerate(new_recipe['directions']):
+      direction = direction.replace("Watch Now", "") #remove "Watch Now" substring
+      tokens = direction.split()
+      for j, token in enumerate(tokens):
+        if token in replacements:
+          tokens[j] = replacements[token]
+      new_direction = ' '.join(tokens)
+      new_recipe['directions'][i] = new_direction
+    return new_recipe
 
 if __name__ == '__main__':
   testClass = Transformer()
@@ -116,4 +139,5 @@ if __name__ == '__main__':
     ...
   }
   '''
+  print("non-vegetarian recipe", json.dumps(testClass.to_non_vegetarian(old_recipe), indent=2))
 
