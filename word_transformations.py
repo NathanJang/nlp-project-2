@@ -22,7 +22,7 @@ class Transformer:
       if any(token in self['containsMeat'] for token in tokens):
         # We've found a meaty ingredient! Replace it with a random veg protein
         old_ingredient_t = next(iter(token for token in tokens if token in self['containsMeat']))
-        new_ingredient_t = random.choice(self['vegetarianProteins'])
+        new_ingredient_t = replacements.get(old_ingredient_t, random.choice(self['vegetarianProteins'])) # use existing or choose new replacement
         replacements[old_ingredient_t] = new_ingredient_t
         new_recipe['ingredients'][i] = ingredient.replace(old_ingredient_t, new_ingredient_t) # Put the replacement into new ingredient list
     # Loop through directions and stupidly replace tokens that are the old ingredient
