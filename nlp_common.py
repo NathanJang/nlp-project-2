@@ -22,7 +22,7 @@ class WordTagger:
   def __init__(self):
     self.measurements = transformer.__getitem__('measurements')
     self.tools = transformer.__getitem__('tools')
-    self.times = ["minutes", "seconds", "hours", "days"]
+    self.times = transformer.__getitem__('duration')
     self.methods = transformer.__getitem__('cookingMethods')
     # store recipe data in class to access at any time
     # todo: move this to a base list for ingredients
@@ -64,7 +64,7 @@ class WordTagger:
           split_ingredient_fragments = ing.split()
           ing_ind = split_ingredient_fragments.index(fragment)
           ing_ind_2 = ''
-          if ')' in split_ingredient_fragments[ing_ind + 1]:
+          if ')' in split_ingredient_fragments[ing_ind]:
             ing_ind_2 = ing_ind + 1
           if ing_ind_2 == ing_ind + 1:
             ingredient_info['paren'] = ' '.join(str(part) for part in split_ingredient_fragments[ing_ind:ing_ind_2 + 1])
@@ -152,7 +152,6 @@ class WordTagger:
           # todo: maybe don't modify the main cleaned_direction variable
           cleaned_direction[ind] = cleaned_direction[ind].strip(',.')
           for ingredient in self.found_ingredients:
-            split_ingredient = ingredient.split()
             ingredient_name = self.found_ingredients[ingredient]['name']
             # todo: move this to a helper function to cut down on code
             len_check = len(cleaned_direction[ind]) > 2 and not cleaned_direction[ind].isdigit() and \
@@ -179,7 +178,6 @@ class WordTagger:
             found_directions[direction_name]["methods"].append(cleaned_direction[ind])
 
           # add timing
-          timing_done = False
           # TIMING METHOD 1
           if cleaned_direction[ind] == 'degrees':
             cln_degrees = []
@@ -190,22 +188,24 @@ class WordTagger:
 
             deg_str = ' DEGREES '.join(cln_degrees).strip("().")
             found_directions[direction_name]["times"].append(deg_str)
-            timing_done = True
 
           # TIMING METHOD 2
           time_check = cleaned_direction[ind] in self.times or f'{cleaned_direction[ind]}s' in \
                          self.times or cleaned_direction[ind][:-1] in self.times
           tm_check = cleaned_direction[ind] not in found_directions[direction_name]['times']
-          if not timing_done and time_check and tm_check:
+          # todo: fix duplicate timings being inserted when theyre fragmented
+          if time_check and tm_check:
             temp_count = 1
-            temp_str = cleaned_direction[ind]
+            time_str = cleaned_direction[ind]
             while True:
               if cleaned_direction[ind - temp_count].isdigit() or cleaned_direction[ind - temp_count] == "to":
-                temp_str = cleaned_direction[ind - temp_count] + " " + temp_str
+                time_str = cleaned_direction[ind - temp_count] + " " + time_str
               else:
                 break
               temp_count += 1
-              found_directions[direction_name]["times"].append(temp_str)
+              found_directions[direction_name]["times"].append(time_str)
+
+          # todo: remove similar time duplicates asap!!
 
           cnt += 1
 
@@ -215,8 +215,9 @@ class WordTagger:
 
 if __name__ == '__main__':
   rf = RecipeFetcher()
-  meat_lasagna = rf.search_recipes('meat lasagna')[0]
-  recipe = rf.scrape_recipe(meat_lasagna)
+  recipe_search_text = 'meat loaf'
+  found_recipe = rf.search_recipes(recipe_search_text)[0]
+  recipe = rf.scrape_recipe(found_recipe)
   tagger = WordTagger()
   tagger.process_ingredients(recipe)
   tagger.process_tools(recipe)
