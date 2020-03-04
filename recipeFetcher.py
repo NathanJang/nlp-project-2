@@ -12,16 +12,16 @@ class RecipeFetcher:
     search_url = self.search_base_url % (keywords.replace(' ', '+'))
 
     page_html = requests.get(search_url)
-    page_graph = BeautifulSoup(page_html.content, features="lxml")
+    page_graph = BeautifulSoup(page_html.content, features="html.parser")
 
-    return [recipe.a['href'] for recipe in \
-            page_graph.find_all('div', {'class': 'grid-card-image-container'})]
+    return [recipe.a['href'] for recipe in page_graph.find_all('div', {'class': 'grid-card-image-container'})]
+
 
   def scrape_recipe(self, recipe_url):
     results = {}
 
     page_html = requests.get(recipe_url)
-    page_graph = BeautifulSoup(page_html.content, features="lxml")
+    page_graph = BeautifulSoup(page_html.content, features="html.parser")
 
     results['ingredients'] = [ingredient.text for ingredient in \
                               page_graph.find_all('span', {'itemprop': 'recipeIngredient'})]
@@ -37,10 +37,10 @@ class RecipeFetcher:
   def scrape_nutrition_facts(self, recipe_url):
     results = []
 
-    nutrition_facts_url = '%s/fullrecipenutrition' % (recipe_url)
+    nutrition_facts_url = f'{recipe_url}/fullrecipenutrition'
 
     page_html = requests.get(nutrition_facts_url)
-    page_graph = BeautifulSoup(page_html.content, features="lxml")
+    page_graph = BeautifulSoup(page_html.content, features="html.parser")
 
     nutrition_rows = page_graph.find_all('div', {'class': 'nutrition-row'})
 

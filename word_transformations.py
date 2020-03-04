@@ -5,11 +5,20 @@ import re
 
 
 class Transformer:
+
   def __init__(self):
     self.words_file_name = 'word_list.json'
 
     with open(self.words_file_name, 'r') as words_file:
       self.words_json = json.load(words_file)
+
+    self.transformation_mapping = {
+      1: self.to_non_vegetarian,
+      2: self.to_vegetarian,
+      3: self.to_non_healthy,
+      4: self.to_healthy,
+      5: self.to_asian_cuisine,
+    }
 
   def __getitem__(self, category):
     return self.words_json.get(category, [])
@@ -92,6 +101,16 @@ class Transformer:
           new_direction = direction.replace(original, replacement)
           new_recipe['directions'][i] = new_direction
     return new_recipe
+
+  # TODO
+  def to_asian_cuisine(self):
+    pass
+
+
+  # TODO
+  def to_non_healthy(self):
+    pass
+
 
 if __name__ == '__main__':
   testClass = Transformer()

@@ -199,15 +199,18 @@ class WordTagger:
             time_str = cleaned_direction[ind]
             while True:
               if cleaned_direction[ind - temp_count].isdigit() or cleaned_direction[ind - temp_count] == "to":
-                time_str = cleaned_direction[ind - temp_count] + " " + time_str
+                time_str = f'{cleaned_direction[ind - temp_count]} {time_str}'
               else:
                 break
               temp_count += 1
-              found_directions[direction_name]["times"].append(time_str)
+              if time_str not in found_directions[direction_name]['times']:
+                found_directions[direction_name]["times"].append(time_str)
 
           # todo: remove similar time duplicates asap!!
+          # sorted_times = sorted(found_directions[direction_name]["times"])
+          # found_directions[direction_name]["times"] = list(sorted_times)
 
-          cnt += 1
+        cnt += 1
 
     processed_directions.update({"raw": direction_list})
     processed_directions.update({"cleaned": found_directions})
@@ -215,9 +218,9 @@ class WordTagger:
 
 if __name__ == '__main__':
   rf = RecipeFetcher()
-  recipe_search_text = 'meat loaf'
-  found_recipe = rf.search_recipes(recipe_search_text)[0]
-  recipe = rf.scrape_recipe(found_recipe)
+  recipe_url = 'https://www.allrecipes.com/recipe/22776/restaurant-style-lasagna/?internalSource=previously%20viewed&referringContentType=Homepage&clickId=cardslot%2040'
+  # found_recipe = rf.search_recipes(recipe_search_text)[0]
+  recipe = rf.scrape_recipe(recipe_url)
   tagger = WordTagger()
   tagger.process_ingredients(recipe)
   tagger.process_tools(recipe)

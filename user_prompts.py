@@ -1,13 +1,17 @@
 #project3 
-
+from word_transformations import Transformer
 
 # From piazza post @53: 
 #Each transformation should produce an output. Imagine the following sequence of interactions:
 
+
 # 1. Program asks for a recipe URL;
 # 2. User enters said URL;
-
 # 3. Program displays the parsed recipe;
+def search_url_input():
+	url_or_keywords = input("Please enter a recipe url or search keywords: \n")
+	return url_or_keywords.strip()
+
 
 # 4. Program shows a predefined set of transformations as a numbered list;
 def set_transformations():
@@ -19,7 +23,7 @@ def set_transformations():
 	print("3 - From healthy to non-healthy")
 	print("4 - From non-healthy to healthy")
 	# Style of cuisine (AT LEAST ONE REQUIRED)
-	print("5 - Transform to X cuisine") 
+	print("5 - Transform to Asian cuisine")
 	# Additional Style of cuisine (OPTIONAL)
 	print("6 - Transform to Y cuisine")
 	# DIY to easy (OPTIONAL)
@@ -31,6 +35,7 @@ def set_transformations():
 	print("10 - Change cooking method")
 
 # 5. User enters a number within said list;
+
 
 # 6. Program displays the output of the selected transformation
 def transformation():
@@ -45,7 +50,7 @@ def transformation():
 	elif selected_transformation == "4":
 		print("~Transformed recipe to healthy~")
 	elif selected_transformation == "5":
-		print("~Transformed to X cuisine~")
+		print("~Transformed to Asian cuisine~")
 	elif selected_transformation == "6":
 		print("~Transformed to Y cuisine~")
 	elif selected_transformation == "7":
@@ -60,6 +65,7 @@ def transformation():
 		print("Please enter a number 1-10")
 		transformation()
 
+	return int(selected_transformation)
 
 # 7. Program asks if the user would like to continue transforming the recipe or start from scratch with a new recipe;
 def continue_startover():
@@ -71,6 +77,7 @@ def continue_startover():
 # 8. User enters an option;
 
 # 9. Program goes back to #1 or continues to iterate over the previously transformed recipe.
+# todo: abstract this out so we can use oru classes for it
 def next_step():
 	selected_option = input()
 	if selected_option == "1":
@@ -79,8 +86,8 @@ def next_step():
 		continue_startover()
 		next_step()
 	elif selected_option == "2":
-		recipe_url = input("Please enter a recipe url: ")
 		print("\n")
+		url = search_url_input()
 		set_transformations()
 		transformation()
 		continue_startover()
@@ -93,13 +100,12 @@ def next_step():
 
 
 
-
-recipe_url = input("Please enter a recipe url: ")
-print("\n")
-set_transformations()
-transformation()
-continue_startover()
-next_step()
+if __name__ == '__main__':
+	search_url_input()
+	set_transformations()
+	transformation()
+	continue_startover()
+	next_step()
 
 
 
