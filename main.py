@@ -45,7 +45,7 @@ def main():
   # transformation recipe
   new_recipe = transform_recipe(recipe)
   run_nlp(new_recipe)
-
+  # todo: keep transforming
 
 if __name__ == '__main__':
   main()
