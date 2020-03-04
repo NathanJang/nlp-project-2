@@ -12,7 +12,7 @@ class RecipeFetcher:
     search_url = self.search_base_url % (keywords.replace(' ', '+'))
 
     page_html = requests.get(search_url)
-    page_graph = BeautifulSoup(page_html.content)
+    page_graph = BeautifulSoup(page_html.content, features="lxml")
 
     return [recipe.a['href'] for recipe in \
             page_graph.find_all('div', {'class': 'grid-card-image-container'})]
@@ -21,7 +21,7 @@ class RecipeFetcher:
     results = {}
 
     page_html = requests.get(recipe_url)
-    page_graph = BeautifulSoup(page_html.content)
+    page_graph = BeautifulSoup(page_html.content, features="lxml")
 
     results['ingredients'] = [ingredient.text for ingredient in \
                               page_graph.find_all('span', {'itemprop': 'recipeIngredient'})]
@@ -40,7 +40,7 @@ class RecipeFetcher:
     nutrition_facts_url = '%s/fullrecipenutrition' % (recipe_url)
 
     page_html = requests.get(nutrition_facts_url)
-    page_graph = BeautifulSoup(page_html.content)
+    page_graph = BeautifulSoup(page_html.content, features="lxml")
 
     nutrition_rows = page_graph.find_all('div', {'class': 'nutrition-row'})
 
@@ -63,6 +63,7 @@ class RecipeFetcher:
       # strip all new lines from our values
       nutrient = {key: val.strip() if val is not None else None for key, val in nutrient.items()}
 
+
       results.append(nutrient)
 
     return results
@@ -84,7 +85,27 @@ if __name__ == '__main__':
   rf = RecipeFetcher()
   meat_lasagna = rf.search_recipes('meat lasagna')[0]
   results = rf.scrape_recipe(meat_lasagna)
-  print(results)
+  #print(results)
+  print("INGREDIENTS:")
+  for ingredient in results['ingredients']:
+    print(ingredient)
+
+  print("\n")
+  print("DIRECTIONS:")
+  count = 1
+  for direction in results['directions']:
+    direction = direction.replace("Watch Now", "")
+    print(str(count) + ". " + direction)
+    count = count + 1 
+
+  #don't need to print nutritional info
+  # print("\n")
+  # print("NUTRITION:")
+  # for nutrient_row in results['nutrition']:
+  #   print(nutrient_row)
+
+
+
 
 """
 Should return:
