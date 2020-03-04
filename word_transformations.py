@@ -46,7 +46,6 @@ class Transformer:
       new_recipe['directions'][i] = new_direction
     return new_recipe
 
-
   def to_non_vegetarian(self, original_recipe):
     '''Returns a new non-vegetarian recipe using to the recipe dictionary representation in recipeFetcher.py'''
     new_recipe = deepcopy(original_recipe)
@@ -105,7 +104,6 @@ class Transformer:
   # TODO
   def to_asian_cuisine(self):
     pass
-
 
   # TODO
   def to_non_healthy(self):

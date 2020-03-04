@@ -4,6 +4,7 @@ from nlp_common import WordTagger
 
 import user_prompts
 
+
 def run_nlp(recipe):
   tagger = WordTagger()
 

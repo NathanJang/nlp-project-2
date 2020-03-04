@@ -61,7 +61,7 @@ class RecipeFetcher:
       nutrient['daily value'] = split_amount_and_value[1] or None
 
       # strip all new lines from our values
-      nutrient = {key: val.strip() if val is not None else None for key, val in nutrient.items()}
+      nutrient = {key: str(val).strip() if val is not None else None for key, val in nutrient.items()}
 
 
       results.append(nutrient)
