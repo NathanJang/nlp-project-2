@@ -8,8 +8,8 @@
   "containsAnimalProducts": ["abalone", "ham", "fish", "mussels", "beef", "cheese", "turkey", "sausage", "bacon", "mayonnaise", "yogurt", "mussel", "roast", "buttermilk", "clams", "pork", "egg", "scallops", "steak", "salmon", "tilapia", "lobster", "milk", "duck", "sea bass", "clam", "chorizo sausage", "cod", "shrimp", "scallop", "tuna", "chuck roast", "chicken"],
   "vegetables": ["zucchini", "onions", "squash", "asparagus", "carrots", "tomatoes", "cucumbers", "lettuce", "mushrooms", "celery", "corn", "spinach", "kale", "radish", "cabbage", "peas"],
   "spices": ["parsley", "nutmeg", "oregano", "dill", "thyme", "basil", "tumeric", "cumin", "rosemary", "coriander", "mint", "saffron", "paprika"],
-  "condiments": ["ranch", "mayonnaise", "mustard", "ketchup", "dressing", "cajun"],
-  "cheeses": ["ricotta", "gouda", "brie", "swiss", "provolone", "muenster", "mozzarella", "cheddar", "feta", "goat", "blue", "pecorino romano", "monterey jack", "parmesan", "camembert"],
+  "condiments": ["ranch", "mayonnaise", "mustard", "ketchup", "dressing", "cajun", "butter"],
+  "cheeses": ["ricotta", "gouda", "brie", "swiss", "provolone", "muenster", "mozzarella", "cheddar", "feta", "goat", "blue", "pecorino romano", "monterey jack", "parmesan", "camembert", "cottage cheese"],
   "breads": ["bread", "tortillas", "pita", "rolls", "buns"],
   "pastas": ["rigatoni", "macaroni", "tagliatelle", "pappardelle", "ravioli", "fettucini", "spaghetti", "penne", "lasagna", "cannelloni", "tortellini", "orzo", "pasta", "linguine", "ziti", "fusilli", "vermicelli", "bucatini", "rotini"],
   "healthyReplacements": {
@@ -95,5 +95,13 @@
     "applesauce": "sugar",
     "greek yogurt": "mayonnaise",
     "cottage cheese": "mozzarella"
+  },
+  "asian": {
+    "vegetables": ["choy sum", "chinese broccoli", "bok choy", "napa cabbage", "lotus root", "white radish", "chinese eggplant"],
+    "spices": ["white pepper", "chili powder", "star anise", "sichuan pepper", "peppercorn", "five-spice", "ginger"],
+    "condiments": ["XO sauce", "chili oil", "soy sauce", "hoisin sauce", "fish sauce", "sesame oil", "plum sauce"],
+    "cheeses": ["tofu", "yak cheese", "paneer"],
+    "breads": ["rou bao", "shaobing", "gua bao", "flatbread"],
+    "pastas": ["lo mein", "egg noodles", "rice noodles", "ramen", "udon", "somen"]
   }
 }
