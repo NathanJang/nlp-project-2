@@ -22,7 +22,7 @@
     "pancetta": "turkey bacon",
     "yogurt": "lowfat greek yogurt",
     "fries": "sweet potato fries",
-    "butter": ["margarine", "avocado puree"],
+    "butter": "margarine",
     "burger": "turkey burger",
     "pancake": "banana pancake",
     "pork belly": "tofu",
@@ -40,17 +40,17 @@
     "all purpose flour" : "almond flour",
     "frosting" : "marshmallow fluff",
     "mashed potatoes" : "mashed cauliflower",
-    "pasta" : ["whole wheat pasta", "spaghetti squash"],
+    "pasta" : "whole wheat pasta",
     "corn tortillas" : "lettuce leaves",
     "flour tortillas" : "lettuce leaves",
     "cheese" : "nutritional yeast", 
-    "mayo" : ["greek yogurt", "mashed avocado"],
-    "mayonnaise" : ["greek yogurt", "mashed avocado"],
+    "mayo" : "greek yogurt",
+    "mayonnaise" : "greek yogurt",
     "ground beef" : "ground turkey",
-    "bacon" : "prosciutto",
+    "bacon" : "prosciutto"
   },
   "glutenfree": {
-    "bagel" : ["gluten free bagel", "rice cake"],
+    "bagel" : "gluten free bagel",
     "bread" : "gluten free bread", 
     "breadsticks": "gluten free bread",
     "focaccia": "gluten free bread",
@@ -76,6 +76,11 @@
     "all purpose flour" : "almond flour",
     "all-purpose flour" : "almond flour",
     "couscous" : "quinoa",
-    "soy sauce" : "tamari",
+    "soy sauce" : "tamari"
+  },
+  "vegan":{
+    "pork" : "tofu", 
+    "beef" : "tofu"
   }
+
 }
