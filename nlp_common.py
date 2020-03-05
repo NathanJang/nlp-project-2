@@ -5,7 +5,7 @@ from recipeFetcher import RecipeFetcher
 from fractions import Fraction
 
 STOP_WORDS = {
-  'ingredients': ['taste', 'tastes', 'and', 'oven']
+  'ingredients': ['taste', 'tastes', 'and', 'oven', 'the', 'top', 'lid']
 }
 
 PASS_WORDS = {

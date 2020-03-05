@@ -1,9 +1,7 @@
-#project3 
 from word_transformations import Transformer
 
 # From piazza post @53: 
-#Each transformation should produce an output. Imagine the following sequence of interactions:
-
+# Each transformation should produce an output. Imagine the following sequence of interactions:
 
 # 1. Program asks for a recipe URL;
 # 2. User enters said URL;
@@ -98,15 +96,10 @@ def next_step():
 	return selected_option
 
 
-
 if __name__ == '__main__':
 	search_url_input()
 	set_transformations()
 	transformation()
 	continue_startover()
 	next_step()
-
-
-
-
 
