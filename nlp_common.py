@@ -5,13 +5,15 @@ from recipeFetcher import RecipeFetcher
 from fractions import Fraction
 
 STOP_WORDS = {
-  'ingredients': ['taste', 'tastes', 'and', 'oven', 'the', 'top', 'lid', 'set']
+  'ingredients': ['taste', 'tastes', 'and', 'oven', 'the', 'top', 'lid', 'set', 'let']
 }
 
 PASS_WORDS = {
   'ingredients': []
 }
 
+NAME_POS = ["NN", "NNS"]
+INFO_POS = ["JJ", "VBN", "RB"]
 transformer = Transformer()
 
 # TODO: MAJOR:
@@ -83,15 +85,14 @@ class WordTagger:
 
           # todo: move these codes to constants
           # assign ingredient and description based on fragment
-          if fragment_word not in STOP_WORDS and (fragment_pos in ["NN", "NNS"] or fragment_word in PASS_WORDS):
+          if fragment_word not in STOP_WORDS and (fragment_pos in NAME_POS or fragment_word in PASS_WORDS):
             ingredient_info['name'] += f'{fragment} '
 
-          if fragment_word not in ingredient_info['name'] and fragment_pos in ["JJ", "VBN", "RB"]:
+          if fragment_word not in ingredient_info['name'] and fragment_pos in INFO_POS:
             ingredient_info['info'] += f'{fragment} '
 
       # some clean up :)
-      if ingredient_info['qty'] == 0:
-        ingredient_info['qty'] = ""
+      ingredient_info['qty'] = "" if ingredient_info['qty'] == 0 else ingredient_info['qty']
       ingredient_info['name'] = ingredient_info['name'].strip()
       ingredient_info['info'] = ingredient_info['info'].strip()
 
@@ -209,9 +210,15 @@ class WordTagger:
               if time_str not in found_directions[direction_name]['times']:
                 found_directions[direction_name]["times"].append(time_str)
 
-          # todo: remove similar time duplicates asap!!
-          # sorted_times = sorted(found_directions[direction_name]["times"])
-          # found_directions[direction_name]["times"] = list(sorted_times)
+          # remove duplicate times added (ex: ['5 minutes', 'to 7 minutes', '5 to 7 minutes'])
+          if len(found_directions[direction_name]["times"]) > 1:
+            sorted_times = sorted(found_directions[direction_name]["times"])
+            for tmp_time in sorted_times:
+              for check_time in sorted_times:
+                if tmp_time in check_time and tmp_time is not check_time:
+                  sorted_times.remove(tmp_time)
+                  break
+            found_directions[direction_name]["times"] = list(sorted_times)
 
         cnt += 1
 
@@ -219,6 +226,7 @@ class WordTagger:
     processed_directions.update({"cleaned": found_directions})
     self.found_directions = processed_directions
     return processed_directions
+
 
 if __name__ == '__main__':
   rf = RecipeFetcher()
