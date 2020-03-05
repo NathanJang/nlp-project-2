@@ -63,7 +63,6 @@ class RecipeFetcher:
       # strip all new lines from our values
       nutrient = {key: str(val).strip() if val is not None else None for key, val in nutrient.items()}
 
-
       results.append(nutrient)
 
     return results
