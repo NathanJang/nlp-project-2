@@ -101,7 +101,7 @@ class Transformer:
           new_recipe['directions'][i] = new_direction
     return new_recipe
 
-  def to_unhealthy(self, original_recipe):
+  def to_non_healthy(self, original_recipe):
     '''Returns a new vegetarian recipe using to the recipe dictionary representation in recipeFetcher.py'''
     new_recipe = deepcopy(original_recipe)
     replacements = {}  # Mapping unhealthy ingredient -> new healthy ingredient
@@ -135,10 +135,6 @@ class Transformer:
 
   # TODO
   def to_asian_cuisine(self):
-    pass
-
-  # TODO
-  def to_non_healthy(self):
     pass
 
 
@@ -331,7 +327,7 @@ if __name__ == '__main__':
                     {'name': 'Magnesium', 'amount': '74', 'unit': 'mg', 'daily_value': None},
                     {'name': 'Folate', 'amount': '41', 'unit': 'mcg', 'daily_value': None}]
   }
-  print("unhealthy recipe", json.dumps(testClass.to_unhealthy(old_healthy_recipe), indent=2))
+  print("unhealthy recipe", json.dumps(testClass.to_non_healthy(old_healthy_recipe), indent=2))
   '''
   should:
   - replace brown rice with white rice
