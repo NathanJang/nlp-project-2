@@ -62,6 +62,8 @@ def main():
   printer = DisplayResults(results=transformed_nlp_results)
   printer.print_all()
   # todo: keep transforming
+  user_prompts.continue_startover()
+  user_prompts.next_step()
 
 if __name__ == '__main__':
   main()
