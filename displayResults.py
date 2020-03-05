@@ -27,3 +27,4 @@ class DisplayResults:
     self.print_key('tools')
     self.print_key('methods')
     self.print_ingredients()
+    self.print_key('directions')

@@ -23,7 +23,7 @@ def run_nlp(recipe):
     'ingredients': tagger.found_ingredients,
     'tools': tagger.found_tools,
     'methods': tagger.found_methods,
-    'directions': tagger.process_directions
+    'directions': tagger.found_directions
   }
 
 

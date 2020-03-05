@@ -29,6 +29,7 @@ class WordTagger:
     self.found_ingredients = {}
     self.found_methods = None
     self.found_tools = None
+    self.found_directions = None
 
   def process_ingredients(self, recipe_results):
     # todo: may need to limit list of ingredients
@@ -216,6 +217,7 @@ class WordTagger:
 
     processed_directions.update({"raw": direction_list})
     processed_directions.update({"cleaned": found_directions})
+    self.found_directions = direction_list
     return processed_directions
 
 if __name__ == '__main__':
