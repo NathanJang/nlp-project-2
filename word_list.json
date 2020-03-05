@@ -49,7 +49,8 @@
     "ground beef" : "ground turkey",
     "bacon" : "prosciutto"
   },
-  "glutenfree": {
+  "glutenfreeReplacements": {
+    "noodles" : "spaghetti squash",
     "bagel" : "gluten free bagel",
     "bread" : "gluten free bread",
     "breadsticks": "gluten free bread",
@@ -70,13 +71,43 @@
     "flour tortillas" : "corn tortillas",
     "crackers" : "rice cake",
     "bread crumbs" : "gluten free oats",
+    "breadcrumbs" : "gluten free oats", 
     "granola" : "chopped nuts",
     "frosting" : "meringue",
     "croutons" : "pecans",
     "all purpose flour" : "almond flour",
     "all-purpose flour" : "almond flour",
     "couscous" : "quinoa",
-    "soy sauce" : "tamari"
+    "soy sauce" : "tamari",
+    "pappardelle" : "gluten free pasta"
+  },
+  "glutenReplacements": {
+    "spaghetti squash" : "noodles", 
+    "gluten free bagel" : "bagel",
+    "gluten-free bagel" : "bagel",
+    "gluten free bread" : "bread",
+    "gluten-free bread" : "bread",
+    "cocoa" : "ovaltine",
+    "gluten free beer" : "beer", 
+    "gluten-free beer" : "bagel",
+    "corn flakes" : "cereal",
+    "rice" : "bulgar",
+    "polenta" : "semolina",
+    "rice" : "pasta",
+    "almond flour" : "flour",
+    "rice flakes" : "wheat flakes",
+    "corn tortillas" : "flour tortillas",
+    "rice cake" : "crackers",
+    "gluten free oats" : "breadcrumbs",
+    "gluten-free oats" : "breadcrumbs",
+    "chopped nuts" : "granola",
+    "meringue" : "frosting", 
+    "pecans" : "croutons",
+    "almond flour" : "all-purpose flour",
+    "quinoa" : "couscous",
+    "tamari" : "soy sauce",
+    "gluten free pasta" : "pappardelle",
+    "gluten-free pasta" : "pappardelle"
   },
   "unhealthyReplacements": {
     "turkey burger": "beef burger",
@@ -96,12 +127,30 @@
     "greek yogurt": "mayonnaise",
     "cottage cheese": "mozzarella"
   },
-  "asian": {
+  "chinese": {
     "vegetables": ["choy sum", "chinese broccoli", "bok choy", "napa cabbage", "lotus root", "white radish", "chinese eggplant"],
     "spices": ["white pepper", "chili powder", "star anise", "sichuan pepper", "peppercorn", "five-spice", "ginger"],
     "condiments": ["XO sauce", "chili oil", "soy sauce", "hoisin sauce", "fish sauce", "sesame oil", "plum sauce"],
     "cheeses": ["tofu", "yak cheese", "paneer"],
     "breads": ["rou bao", "shaobing", "gua bao", "flatbread"],
     "pastas": ["lo mein", "egg noodles", "rice noodles", "ramen", "udon", "somen"]
+  },
+  "vegan": {
+    "pork" : "tofu",
+    "beef" : "tofu",
+    "chicken" : "tofu",
+    "eggs" : "mashed banana",
+    "milk" : "almond milk",
+    "butter" : "vegan margarine",
+    "margarine" : "vegan margarine",
+    "tuna" : "tofu"
+  },
+  "thai": { 
+    "vegetables": ["bamboo shoots", "bell peppers", "eggplant", "bean sprouts", "carrots"],
+    "spices": ["coriander seed", "star anise", "cumin", "peppercorn"],
+    "condiments" : ["curry sauce", "thai shrimp paste"],
+    "cheeses": ["tofu"],
+    "breads" : ["roti", "naan"],
+    "pastas" : ["sen mee", "bah mee", "sen yai", "wun sen", "sen lek"]
   }
 }

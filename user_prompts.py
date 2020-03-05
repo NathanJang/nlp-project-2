@@ -9,7 +9,7 @@ from word_transformations import Transformer
 # 2. User enters said URL;
 # 3. Program displays the parsed recipe;
 def search_url_input():
-	url_or_keywords = input("Please enter a recipe url or search keywords: \n")
+	url_or_keywords = input("Please enter a recipe url: \n")
 	return url_or_keywords.strip()
 
 
@@ -23,7 +23,13 @@ def set_transformations():
 	print("3 - From healthy to non-healthy")
 	print("4 - From non-healthy to healthy")
 	# Style of cuisine (AT LEAST ONE REQUIRED)
-	print("5 - Transform to Asian cuisine")
+	print("5 - Transform to Chinese cuisine")
+
+	print("6 - Transform to gluten-free") 
+
+	print("7 - Transform to non gluten-free")
+
+	print("8 - Transform to Thai cuisine")
 	# Additional Style of cuisine (OPTIONAL)
 	# print("6 - Transform to Y cuisine")
 	# DIY to easy (OPTIONAL)
@@ -42,15 +48,21 @@ def transformation():
 	selected_transformation = input()
 	print("\n")
 	if selected_transformation == "1":
-		print("~Transformed recipe to non-vegetarian~")
+		print("--Transformed recipe to non-vegetarian--")
 	elif selected_transformation == "2":
-		print("~Transformed recipe to vegetarian~")
+		print("--Transformed recipe to vegetarian--")
 	elif selected_transformation == "3":
-		print("~Transformed recipe to non-healthy~")
+		print("--Transformed recipe to non-healthy--")
 	elif selected_transformation == "4":
-		print("~Transformed recipe to healthy~")
+		print("--Transformed recipe to healthy--")
 	elif selected_transformation == "5":
-		print("~Transformed to Asian cuisine~")
+		print("--Transformed to Chinese cuisine--")
+	elif selected_transformation == "6":
+		print("--Transformed to gluten-free--")
+	elif selected_transformation == "7":
+		print("--Transformed to non gluten-free--")
+	elif selected_transformation == "8":
+		print("--Transformed to Thai cuisine--")
 	# elif selected_transformation == "6":
 	# 	print("~Transformed to Y cuisine~")
 	# elif selected_transformation == "7":
@@ -62,7 +74,7 @@ def transformation():
 	# elif selected_transformation == "10":
 	# 	print("~Changed cooking method~")
 	else:
-		print("Please enter a number 1-5")
+		print("Please enter a number 1-8")
 		transformation()
 
 	return int(selected_transformation)
