@@ -25,14 +25,14 @@ def set_transformations():
 	# Style of cuisine (AT LEAST ONE REQUIRED)
 	print("5 - Transform to Asian cuisine")
 	# Additional Style of cuisine (OPTIONAL)
-	print("6 - Transform to Y cuisine")
+	# print("6 - Transform to Y cuisine")
 	# DIY to easy (OPTIONAL)
-	print("7 - DIY to easy")
+	# print("7 - DIY to easy")
 	# Double the amount or cut it by half (OPTIONAL)
-	print("8 - Double the amount")
-	print("9 - Reduce the amount by half")
+	# print("8 - Double the amount")
+	# print("9 - Reduce the amount by half")
 	# Cooking method (from bake to stir fry, for example) (OPTIONAL)
-	print("10 - Change cooking method")
+	# print("10 - Change cooking method")
 
 # 5. User enters a number within said list;
 
@@ -51,18 +51,18 @@ def transformation():
 		print("~Transformed recipe to healthy~")
 	elif selected_transformation == "5":
 		print("~Transformed to Asian cuisine~")
-	elif selected_transformation == "6":
-		print("~Transformed to Y cuisine~")
-	elif selected_transformation == "7":
-		print("~Transformed to easy~")
-	elif selected_transformation == "8":
-		print("~Doubled the amount~")
-	elif selected_transformation == "9":
-		print("~Reduced the amount by half~")
-	elif selected_transformation == "10":
-		print("~Changed cooking method~")
+	# elif selected_transformation == "6":
+	# 	print("~Transformed to Y cuisine~")
+	# elif selected_transformation == "7":
+	# 	print("~Transformed to easy~")
+	# elif selected_transformation == "8":
+	# 	print("~Doubled the amount~")
+	# elif selected_transformation == "9":
+	# 	print("~Reduced the amount by half~")
+	# elif selected_transformation == "10":
+	# 	print("~Changed cooking method~")
 	else:
-		print("Please enter a number 1-10")
+		print("Please enter a number 1-5")
 		transformation()
 
 	return int(selected_transformation)
