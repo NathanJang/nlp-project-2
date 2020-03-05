@@ -26,9 +26,19 @@ class RecipeFetcher:
     results['ingredients'] = [ingredient.text for ingredient in \
                               page_graph.find_all('span', {'itemprop': 'recipeIngredient'})]
 
+    # different ingredient format, attempt to populate array with new format
+    if not results['ingredients']:
+      results['ingredients'] = [ingredient.text.strip("\n").strip() for ingredient in \
+                                page_graph.find_all('span', {'class': 'ingredients-item-name'})]
+
     results['directions'] = [direction.text.strip() for direction in \
                              page_graph.find_all('span', {'class': 'recipe-directions__list--item'})
                              if direction.text.strip()]
+
+    # different direction format, attempt to populate array with new format
+    if not results['directions']:
+      results['directions'] = [str(direct.find('p').text.rstrip("\n")).strip() for direct in
+                               page_graph.find_all('li', {'class': 'subcontainer instructions-section-item'})]
 
     results['nutrition'] = self.scrape_nutrition_facts(recipe_url)
 
