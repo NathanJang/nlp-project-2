@@ -1,19 +1,30 @@
 from recipeFetcher import RecipeFetcher
 from word_transformations import Transformer
 from nlp_common import WordTagger
+from displayResults import DisplayResults
 
 import user_prompts
 
 
 def run_nlp(recipe):
+  """Takes recipe array and returns nlp processed results
+
+  :param recipe:
+  :return:
+  """
   tagger = WordTagger()
 
   tagger.process_ingredients(recipe)
   tagger.process_tools(recipe)
   tagger.process_recipe_methods(recipe)
   tagger.process_directions(recipe)
-  # todo? do we want to return tagger class object or return dict
-  return tagger
+
+  return {
+    'ingredients': tagger.found_ingredients,
+    'tools': tagger.found_tools,
+    'methods': tagger.found_methods,
+    'directions': tagger.process_directions
+  }
 
 
 def get_recipe():
@@ -41,11 +52,14 @@ def transform_recipe(recipe):
 
 def main():
   recipe = get_recipe()
-  run_nlp(recipe)
+  nlp_recipe_results = run_nlp(recipe)
+  printer = DisplayResults(results=nlp_recipe_results)
+  printer.print_steps()
+
   # transformation recipe
-  # while True:
   new_recipe = transform_recipe(recipe)
-  run_nlp(new_recipe)
+  transformed_nlp_results = run_nlp(new_recipe)
+  printer = DisplayResults(results=transformed_nlp_results)
   user_prompts.continue_startover()
   user_prompts.next_step()
 
