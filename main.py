@@ -43,9 +43,11 @@ def main():
   recipe = get_recipe()
   run_nlp(recipe)
   # transformation recipe
+  # while True:
   new_recipe = transform_recipe(recipe)
   run_nlp(new_recipe)
-  # todo: keep transforming
+  user_prompts.continue_startover()
+  user_prompts.next_step()
 
 if __name__ == '__main__':
   main()
