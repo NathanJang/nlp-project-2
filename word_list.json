@@ -47,7 +47,7 @@
     "mayo" : ["greek yogurt", "mashed avocado"],
     "mayonnaise" : ["greek yogurt", "mashed avocado"],
     "ground beef" : "ground turkey",
-    "bacon" : "prosciutto",
+    "bacon" : "prosciutto"
   },
   "glutenfree": {
     "bagel" : ["gluten free bagel", "rice cake"],
@@ -76,6 +76,6 @@
     "all purpose flour" : "almond flour",
     "all-purpose flour" : "almond flour",
     "couscous" : "quinoa",
-    "soy sauce" : "tamari",
+    "soy sauce" : "tamari"
   }
 }
