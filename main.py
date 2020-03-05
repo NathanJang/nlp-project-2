@@ -57,13 +57,19 @@ def main():
   printer.print_all()
 
   # transformation recipe
-  new_recipe = transform_recipe(recipe)
-  transformed_nlp_results = run_nlp(new_recipe)
-  printer = DisplayResults(results=transformed_nlp_results)
-  printer.print_all()
-  # todo: keep transforming
-  user_prompts.continue_startover()
-  user_prompts.next_step()
+  while True:
+    recipe = transform_recipe(recipe)
+    transformed_nlp_results = run_nlp(recipe)
+    printer = DisplayResults(results=transformed_nlp_results)
+    printer.print_all()
+    user_prompts.continue_startover()
+    selected_option = user_prompts.next_step()
+    if selected_option == 1:
+      continue
+    elif selected_option == 2:
+      return main()
+    else:
+      return
 
 if __name__ == '__main__':
   main()

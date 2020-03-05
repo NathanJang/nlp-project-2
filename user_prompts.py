@@ -79,24 +79,11 @@ def continue_startover():
 # 9. Program goes back to #1 or continues to iterate over the previously transformed recipe.
 # todo: abstract this out so we can use oru classes for it
 def next_step():
-	selected_option = input()
-	if selected_option == "1":
-		set_transformations()
-		transformation()
-		continue_startover()
-		next_step()
-	elif selected_option == "2":
-		print("\n")
-		url = search_url_input()
-		set_transformations()
-		transformation()
-		continue_startover()
-		next_step()
-	elif selected_option == "3":
-		return
-	else:
+	selected_option = int(input())
+	if selected_option not in range(1, 4):
 		print("Please enter 1, 2, or 3")
 		next_step()
+	return selected_option
 
 
 
