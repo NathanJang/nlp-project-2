@@ -217,7 +217,7 @@ class WordTagger:
 
     processed_directions.update({"raw": direction_list})
     processed_directions.update({"cleaned": found_directions})
-    self.found_directions = direction_list
+    self.found_directions = processed_directions
     return processed_directions
 
 if __name__ == '__main__':
