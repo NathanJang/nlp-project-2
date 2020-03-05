@@ -26,7 +26,7 @@ class WordTagger:
     self.methods = transformer.__getitem__('cookingMethods')
     # store recipe data in class to access at any time
     # todo: move this to a base list for ingredients
-    self.found_ingredients = {'water': {'name': 'water'}}
+    self.found_ingredients = {}
     self.found_methods = None
     self.found_tools = None
 
@@ -88,9 +88,11 @@ class WordTagger:
           if fragment_word not in ingredient_info['name'] and fragment_pos in ["JJ", "VBN", "RB"]:
             ingredient_info['info'] += f'{fragment} '
 
-        # todo: maybe remove this
+      # some clean up :)
       if ingredient_info['qty'] == 0:
         ingredient_info['qty'] = ""
+      ingredient_info['name'] = ingredient_info['name'].strip()
+      ingredient_info['info'] = ingredient_info['info'].strip()
 
       processed_ingredients[ing] = ingredient_info
 
@@ -186,7 +188,7 @@ class WordTagger:
             if len(cleaned_direction[ind+1].strip("().")) == 1:
               cln_degrees.append(cleaned_direction[ind + 1])
 
-            deg_str = ' DEGREES '.join(cln_degrees).strip("().")
+            deg_str = ' degrees '.join(cln_degrees).strip("().")
             found_directions[direction_name]["times"].append(deg_str)
 
           # TIMING METHOD 2

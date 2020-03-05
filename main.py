@@ -54,12 +54,13 @@ def main():
   recipe = get_recipe()
   nlp_recipe_results = run_nlp(recipe)
   printer = DisplayResults(results=nlp_recipe_results)
-  printer.print_steps()
+  printer.print_all()
 
   # transformation recipe
   new_recipe = transform_recipe(recipe)
   transformed_nlp_results = run_nlp(new_recipe)
   printer = DisplayResults(results=transformed_nlp_results)
+  printer.print_all()
   # todo: keep transforming
 
 if __name__ == '__main__':
