@@ -161,9 +161,9 @@ class Transformer:
     return new_recipe
 
   def to_gluten_free(self, original_recipe):
-    '''Returns a new gluten-free recipe using to the recipe dictionary representation in recipeFetcher.py'''
+    '''Returns a new non gluten-free recipe using to the recipe dictionary representation in recipeFetcher.py'''
     new_recipe = deepcopy(original_recipe)
-    replacements = {}  # Mapping unhealthy ingredient -> new gluten-free ingredient
+    replacements = {}  # Mapping gluten-free ingredient -> new non gluten-free ingredient
     for i, ingredient in enumerate(new_recipe['ingredients']):
       tokens = ingredient.split()
       for gluten_ingredient in self['glutenfreeReplacements'].keys():
@@ -181,7 +181,7 @@ class Transformer:
         if original in direction:
           new_direction = direction.replace(original, replacement)
           new_recipe['directions'][i] = new_direction
-    return 
+    return new_recipe
 
   def to_non_gluten_free(self, original_recipe):
     '''Returns a new non gluten-free recipe using to the recipe dictionary representation in recipeFetcher.py'''
